@@ -55,9 +55,9 @@ jobs:
 ```
 
 ## Input parameters
-| Name       | Description              | Required |
-| :--        | :--                      | :--      |
-| tag        | The tag created(v.\*.\*.\*) | True     |
+| Name       | Description                 | Required |
+| :--        | :--                         | :--      |
+| tag        | The tag created(v.\*.\*.\*) | `true`   |
 
 ## Output parameters
 | Name       | Description                   |
