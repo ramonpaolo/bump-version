@@ -1,0 +1,13 @@
+name: 'Bump Version Package Json'
+description: 'Action to automatically change the version in package.json with the value on tag'
+inputs:
+  tag:
+    description: 'Tag created'
+    required: true
+    default: 'v1.0.0'
+outputs:
+  parsed-tag: # id of output
+    description: 'The tag parsed'
+runs:
+  using: 'node16'
+  main: 'index.js'
