@@ -1,6 +1,18 @@
 # Bump Version
 
-This GitHub Actions, get the value of tag, and pass to the application, replacing the static version in `package.json`, automatically, without create a new commit and manually change the version
+This GitHub Actions, get the value of tag, and pass to the application, replacing the static version in `package.json`, automatically, without create a new commit and manually change the version.
+
+This action, **works only** with push event of type **tags**
+
+Example:
+```yml
+on:
+  push:
+    tags:
+      - v*.*.*
+```
+
+If you use this action with a worflow that run without this trigger, this step will break.
 
 ## Supported Languages
 
@@ -8,7 +20,7 @@ At the moment, just support `package.json` that need exist in root folder
 
 ## Examples
 
-```yaml
+```yml
 name: Deploy Package to NPM
 
 on:
@@ -41,3 +53,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # NPM Token necessary to deploy packages on pipelines CI/CD
 ```
+
+## Input parameters
+| Name       | Description              | Required |
+| :--        | :--                      | :--      |
+| tag        | The tag created(v.*.*.*) | True     |
+
+## Output parameters
+| Name       | Description                   |
+| :--        | :--                           |
+| parsed-tag | v1.0.0(input) = 1.0.0(output) |
