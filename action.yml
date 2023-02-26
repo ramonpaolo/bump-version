@@ -6,7 +6,7 @@ inputs:
     required: true
     default: 'v1.0.0'
 outputs:
-  parsed-tag: # id of output
+  parsed-tag:
     description: 'The tag parsed'
 runs:
   using: 'node16'
