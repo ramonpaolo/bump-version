@@ -22,7 +22,7 @@ try {
   
   packageJson['version'] = parsedTag
 
-  fs.writeFileSync(packagePath, JSON.stringify(packageJson))
+  fs.writeFileSync(packagePath, JSON.stringify(packageJson, undefined, 2))
   
   if(commit === true){
     core.debug(execSync(`git add .`))
