@@ -6,6 +6,7 @@ const { execSync } = require('child_process')
 try {
   const tag = core.getInput('tag');
   const commit = core.getBooleanInput('commit');
+  const branchToPush = core.getInput('branch_to_push');
 
   const parsedTag = tag.replace('v', '')
 
@@ -26,7 +27,7 @@ try {
   if(commit === true){
     core.debug(execSync(`git add .`))
     core.debug(execSync(`git commit -m "bump version to '${parsedTag}'"`))
-    core.debug(execSync('git push origin main'))
+    core.debug(execSync(`git push origin ${branchToPush}`))
 
     core.info('commited the version with success!')
   }else{

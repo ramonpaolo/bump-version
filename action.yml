@@ -9,6 +9,10 @@ inputs:
     description: 'commit the change on package.json'
     required: false
     default: false
+  branch_to_push:
+    description: 'branch to push on git'
+    required: false
+    default: 'main'
 outputs:
   parsed-tag:
     description: 'The tag parsed'
