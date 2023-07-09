@@ -61,7 +61,7 @@ jobs:
 | :--                   | :--                         | :--       | :--      |
 | tag                   | The tag created(v.\*.\*.\*) | `true`    | "v1.0.0" |
 | commit                | Commit the bump             | `false`   | `false`  |
-| branch_to_push        | Who branch to push          | `false`   | "main"   |
+| branch_to_push        | Which branch to push        | `false`   | "main"   |
 
 ## Output parameters
 | Name       | Description                   |
