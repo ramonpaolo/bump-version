@@ -27,6 +27,10 @@ try {
     exec(`git add ${packagePath}`)
     exec(`git commit -m "bump version to \"${parsedTag}\""`)
     exec('git push')
+
+    core.info('commited the version with success!')
+  }else{
+    core.info('will not commit!')
   }
 
   core.setOutput('parsed-tag', parsedTag);
