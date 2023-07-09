@@ -1,9 +1,12 @@
 const core = require('@actions/core');
 const path = require('path')
 const fs = require ('fs');
+const { exec } = require('child_process')
 
 try {
   const tag = core.getInput('tag');
+  const commit = core.getInput('commit');
+
   const parsedTag = tag.replace('v', '')
 
   core.info(`Parsin tag ${tag} to ${parsedTag}!`);
@@ -20,6 +23,12 @@ try {
 
   fs.writeFileSync(packagePath, JSON.stringify(packageJson))
   
+  if(commit === true){
+    exec(`git add ${packagePath}`)
+    exec(`git commit -m "bump version to \"${parsedTag}\""`)
+    exec('git push')
+  }
+
   core.setOutput('parsed-tag', parsedTag);
 } catch (error) {
   core.setFailed(error.message);
