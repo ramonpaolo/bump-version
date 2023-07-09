@@ -26,7 +26,7 @@ try {
   if(commit === true){
     core.debug(execSync(`git add .`))
     core.debug(execSync(`git commit -m "bump version to '${parsedTag}'"`))
-    core.debug(execSync('git push origin HEAD:main'))
+    core.debug(execSync('git push origin main'))
 
     core.info('commited the version with success!')
   }else{
