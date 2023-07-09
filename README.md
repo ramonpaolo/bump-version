@@ -9,7 +9,7 @@ Example:
 on:
   push:
     tags:
-      - v*.*.*
+      - 'v[1-9].[0-9].[0-9]'
 ```
 
 If you use this action with a worflow that run without this trigger, this step will break.
@@ -26,7 +26,7 @@ name: Deploy Package to NPM
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v[1-9].[0-9].[0-9]'
 
 jobs:
   publish_npm:
@@ -38,7 +38,7 @@ jobs:
       - name: Setup NodeJs
         uses: actions/setup-node@v3
         with:
-          node-version: x.y # Your version that you want use here
+          node-version: x.y # Version that you want use here
           registry-url: https://registry.npmjs.org/
                     
       - name: Install Packages
@@ -48,6 +48,8 @@ jobs:
         uses: ramonpaolo/bump-version@v1.0.0
         with: 
           tag: ${{ github.ref_name }} # Accessing the context and get the reference_name, that in this case, is the tag that you created(ex: v1.0.0)
+          commit: true
+          branch_to_push: 'master'
 
       - run: npm publish
         env:
@@ -55,9 +57,11 @@ jobs:
 ```
 
 ## Input parameters
-| Name       | Description                 | Required |
-| :--        | :--                         | :--      |
-| tag        | The tag created(v.\*.\*.\*) | `true`   |
+| Name                  | Description                 | Required  | Default  |
+| :--                   | :--                         | :--       | :--      |
+| tag                   | The tag created(v.\*.\*.\*) | `true`    | "v1.0.0" |
+| commit                | Commit the bump             | `false`   | `false`  |
+| branch_to_push        | Who branch to push          | `false`   | "main"   |
 
 ## Output parameters
 | Name       | Description                   |
