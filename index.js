@@ -1,7 +1,7 @@
 const core = require('@actions/core');
 const path = require('path')
 const fs = require ('fs');
-const { exec } = require('child_process')
+const { execSync } = require('child_process')
 
 try {
   const tag = core.getInput('tag');
@@ -24,9 +24,9 @@ try {
   fs.writeFileSync(packagePath, JSON.stringify(packageJson))
   
   if(commit === true){
-    exec(`git add ${packagePath}`)
-    exec(`git commit -m "bump version to \"${parsedTag}\""`)
-    exec('git push')
+    core.debug(execSync(`git add`))
+    core.debug(execSync(`git commit -m "bump version to \"${parsedTag}\""`))
+    core.debug(execSync('git push'))
 
     core.info('commited the version with success!')
   }else{
