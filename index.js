@@ -5,7 +5,7 @@ const { exec } = require('child_process')
 
 try {
   const tag = core.getInput('tag');
-  const commit = core.getInput('commit');
+  const commit = core.getBooleanInput('commit');
 
   const parsedTag = tag.replace('v', '')
 
