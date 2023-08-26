@@ -9,7 +9,7 @@ Example:
 on:
   push:
     tags:
-      - 'v[1-9].[0-9].[0-9]'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 ```
 
 If you use this action with a worflow that run without this trigger, this step will break.
@@ -26,12 +26,20 @@ name: Deploy Package to NPM
 on:
   push:
     tags:
-      - 'v[1-9].[0-9].[0-9]'
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
   publish_npm:
     name: Publishing to NPM
+
     runs-on: ubuntu-latest
+
+    permissions:
+      actions:
+        write
+      contents:
+        write
+
     steps:
       - uses: actions/checkout@v3
 
@@ -45,13 +53,14 @@ jobs:
         run: yarn
 
       - name: Bump Version of package.json
-        uses: ramonpaolo/bump-version@v1.0.0
+        uses: ramonpaolo/bump-version@v2.3.1
         with: 
           tag: ${{ github.ref_name }} # Accessing the context and get the reference_name, that in this case, is the tag that you created(ex: v1.0.0)
           commit: true
-          branch_to_push: 'master'
+          branch_to_push: 'main'
 
-      - run: npm publish
+      - name: Publish package to NPM
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # NPM Token necessary to deploy packages on pipelines CI/CD
 ```
