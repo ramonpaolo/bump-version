@@ -25,8 +25,11 @@ try {
   fs.writeFileSync(packagePath, JSON.stringify(packageJson, undefined, 2))
   
   if(commit === true){
+    core.debug(execSync(`git config --global user.email "github-actions[bot]@users.noreply.github.com"`))
+    core.debug(execSync(`git config --global user.name "github-actions[bot]"`))
+
     core.debug(execSync(`git add .`))
-    core.debug(execSync(`git commit -m "bump version to '${parsedTag}'"`))
+    core.debug(execSync(`git commit -m "bump-version: bump version to '${parsedTag}'"`))
     core.debug(execSync(`git push origin ${branchToPush} -f || git checkout -b ${branchToPush} && git push origin ${branchToPush}`))
 
     core.info('commited the version with success!')
