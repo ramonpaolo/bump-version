@@ -5,6 +5,7 @@ This GitHub Actions, get the value of tag, and pass to the application, replacin
 This action, **works only** with push event of type **tags**
 
 Example:
+
 ```yml
 on:
   push:
@@ -35,10 +36,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      actions:
-        write
-      contents:
-        write
+      actions: write
+      contents: write
 
     steps:
       - uses: actions/checkout@v3
@@ -48,13 +47,13 @@ jobs:
         with:
           node-version: x.y # Version that you want use here
           registry-url: https://registry.npmjs.org/
-                    
+
       - name: Install Packages
         run: yarn
 
       - name: Bump Version of package.json
         uses: ramonpaolo/bump-version@v2.3.1
-        with: 
+        with:
           tag: ${{ github.ref_name }} # Accessing the context and get the reference_name, that in this case, is the tag that you created(ex: v1.0.0)
           commit: true
           branch_to_push: 'main'
@@ -66,13 +65,16 @@ jobs:
 ```
 
 ## Input parameters
-| Name                  | Description                 | Required  | Default  |
-| :--                   | :--                         | :--       | :--      |
-| tag                   | The tag created(v.\*.\*.\*) | `true`    | "v1.0.0" |
-| commit                | Commit the bump             | `false`   | `false`  |
-| branch_to_push        | Which branch to push        | `false`   | "main"   |
+
+| Name           | Description                  | Required | Default          |
+| :------------- | :--------------------------- | :------- | :--------------- |
+| tag            | The tag created(v.\*.\*.\*)  | `true`   | "v1.0.0"         |
+| commit         | Commit the bump              | `false`  | `false`          |
+| branch_to_push | Which branch to push         | `false`  | "main"           |
+| path           | The path of the package.json | `false`  | "./package.json" |
 
 ## Output parameters
+
 | Name       | Description                   |
-| :--        | :--                           |
+| :--------- | :---------------------------- |
 | parsed-tag | v1.0.0(input) = 1.0.0(output) |
