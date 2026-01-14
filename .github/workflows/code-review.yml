@@ -1,0 +1,29 @@
+name: Code Review with MiniMax
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+permissions: write-all
+
+jobs:
+  code_review:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: AI Code Reviewer
+        uses: ramonpaolo/ai-codereviewer@main
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AI_BASE_URL: "https://api.minimax.io/v1/text/chatcompletion_v2"
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
+          AI_MODEL: "MiniMax-M2.1"
+          AI_PROVIDER: "custom"
+
+          APPROVE_REVIEWS: false # Optional: defaults to false
+          EXCLUDE_PATTERNS: "**/*.lock,**/*-lock.json"
