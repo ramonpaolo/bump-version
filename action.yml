@@ -21,5 +21,5 @@ outputs:
   parsed-tag:
     description: 'The tag parsed'
 runs:
-  using: 'node16'
+  using: 'node24'
   main: 'index.js'

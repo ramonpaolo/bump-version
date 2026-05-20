@@ -1,19 +1,18 @@
-const core = require('@actions/core')
-const path = require('path')
-const fs = require('fs')
-const { execSync } = require('child_process')
+import { getInput, getBooleanInput, info, debug, setOutput, setFailed } from '@actions/core'
+import { readFileSync, writeFileSync } from 'node:fs';
+import { execSync } from 'node:child_process';
 
 try {
-  const tag = core.getInput('tag')
-  const packagePath = core.getInput('path')
-  const commit = core.getBooleanInput('commit')
-  const branchToPush = core.getInput('branch_to_push')
+  const tag = getInput('tag')
+  const packagePath = getInput('path')
+  const commit = getBooleanInput('commit')
+  const branchToPush = getInput('branch_to_push')
 
   const parsedTag = tag.replace('v', '')
 
-  core.info(`Parsin tag ${tag} to ${parsedTag}!`)
+  info(`Parsing tag ${tag} to ${parsedTag}!`)
 
-  const packageString = fs.readFileSync(packagePath, {
+  const packageString = readFileSync(packagePath, {
     encoding: 'utf-8',
   })
 
@@ -21,32 +20,32 @@ try {
 
   packageJson['version'] = parsedTag
 
-  fs.writeFileSync(packagePath, JSON.stringify(packageJson, undefined, 2))
+  writeFileSync(packagePath, JSON.stringify(packageJson, undefined, 2))
 
   if (commit === true) {
-    core.debug(
+    debug(
       execSync(
         `git config --global user.email "github-actions[bot]@users.noreply.github.com"`
       )
     )
-    core.debug(execSync(`git config --global user.name "github-actions[bot]"`))
+    debug(execSync(`git config --global user.name "github-actions[bot]"`))
 
-    core.debug(execSync(`git add .`))
-    core.debug(
+    debug(execSync(`git add .`))
+    debug(
       execSync(`git commit -m "bump-version: bump version to '${parsedTag}'"`)
     )
-    core.debug(
+    debug(
       execSync(
         `git push origin ${branchToPush} -f || git checkout -b ${branchToPush} && git push origin ${branchToPush}`
       )
     )
 
-    core.info('commited the version with success!')
+    info('commited the version with success!')
   } else {
-    core.info('will not commit!')
+    info('will not commit!')
   }
 
-  core.setOutput('parsed-tag', parsedTag)
+  setOutput('parsed-tag', parsedTag)
 } catch (error) {
-  core.setFailed(error.message)
+  setFailed(error.message)
 }
