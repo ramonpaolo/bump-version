@@ -1,6 +1,6 @@
 import { getInput, getBooleanInput, info, debug, setOutput, setFailed } from '@actions/core'
 import { readFileSync, writeFileSync } from 'node:fs';
-import { execSync } from 'child_process';
+import { execSync } from 'node:child_process';
 
 try {
   const tag = getInput('tag')
